@@ -3,4 +3,5 @@
 .vscode
 /config
 /demo
+/src
 tsconfig.json

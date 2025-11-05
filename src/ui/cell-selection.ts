@@ -56,6 +56,7 @@ class CellSelection {
   endTd: Element;
   disabledList: Array<HTMLElement | Element>;
   singleList: Array<HTMLElement | Element>;
+  unmountList: Array<() => void>;
   tableBetter: QuillTableBetter;
   constructor(quill: Quill, tableBetter: QuillTableBetter) {
     this.quill = quill;
@@ -64,6 +65,7 @@ class CellSelection {
     this.endTd = null;
     this.disabledList = [];
     this.singleList = [];
+    this.unmountList = [];
     this.tableBetter = tableBetter;
     this.quill.root.addEventListener('click', this.handleClick.bind(this));
     this.initDocumentListener();
@@ -386,10 +388,27 @@ class CellSelection {
   }
 
   initDocumentListener() {
-    document.addEventListener('copy', (e: ClipboardEvent) => this.onCaptureCopy(e, false));
-    document.addEventListener('cut', (e: ClipboardEvent) => this.onCaptureCopy(e, true));
-    document.addEventListener('keyup', this.handleDeleteKeyup.bind(this));
-    document.addEventListener('paste', this.onCapturePaste.bind(this));
+    const handleCopyEvent = (e: ClipboardEvent) => this.onCaptureCopy(e, false);
+    const handleCutEvent = (e: ClipboardEvent) => this.onCaptureCopy(e, true);
+    const handlePasteEvent = (e: ClipboardEvent) => this.onCapturePaste(e);
+    const handleKeyUpEvent = (e: KeyboardEvent) => this.handleDeleteKeyup(e);
+
+    this.quill.root.addEventListener('copy', handleCopyEvent);
+    this.quill.root.addEventListener('cut', handleCutEvent);
+    this.quill.root.addEventListener('paste', handlePasteEvent);
+    document.addEventListener('keyup', handleKeyUpEvent);
+
+    this.unmountList.push(
+      () => this.quill.root?.removeEventListener('copy', handleCopyEvent),
+      () => this.quill.root?.removeEventListener('cut', handleCutEvent),
+      () => this.quill.root?.removeEventListener('paste', handlePasteEvent),
+      () => document.removeEventListener('keyup', handleKeyUpEvent),
+    );
+  }
+
+  unmount() {
+    this.unmountList.forEach((fn) => fn());
+    this.unmountList = [];
   }
 
   initWhiteList() {
