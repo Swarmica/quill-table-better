@@ -117,6 +117,7 @@ class Table extends Module {
     const offset = table.offset();
     table.remove();
     this.hideTools();
+    this.cellSelection?.unmount();
     this.quill.update(Quill.sources.USER);
     this.quill.setSelection(offset, Quill.sources.SILENT);
   }

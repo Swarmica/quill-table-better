@@ -1,4 +1,7 @@
-# quill-table-better
+# Swarmica quill-table-better
+
+This is a fork of quill-table-better that fix some bugs.
+
 A module that enhances the table functionality of [Quill](https://quilljs.com/).
 
 ![quill-table-better](https://github.com/user-attachments/assets/c5304bab-84bd-4a60-b4ec-6a941a7d0c11)
@@ -22,6 +25,11 @@ A module that enhances the table functionality of [Quill](https://quilljs.com/).
 
 ## Dependencies
 [quill.js](https://quilljs.com/) `>= v2.0.0`
+
+## Installation
+```
+npm i @swarmica/quill-table-better
+```
 
 ## Quickstart
 > **Note**: `setContents` causes the table to not display properly, replace with `updateContents`.  
@@ -289,15 +297,4 @@ module.getTable();
 ### insertTable(rows: number, columns: number)
 ```JavaScript
 module.insertTable(3, 3);
-```
-
-## Download
-```JavaScript
-npm i quill-table-better
-```
-
-### CDN
-```html
-<link href="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.js"></script>
 ```

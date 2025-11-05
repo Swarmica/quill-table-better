@@ -10,11 +10,12 @@ const Header = Quill.import('formats/header') as typeof BlockBlot;
 class TableHeader extends Header {
   static blotName = 'table-header';
   static className = 'ql-table-header';
+  static tagName = 'TH';
 
   next: this | null;
   parent: TableCell;
 
-  static create(formats: Props) {
+  static create(formats: Props = {}) {
     const { cellId, value } = formats;
     const node = super.create(value);
     node.setAttribute('data-cell', cellId);

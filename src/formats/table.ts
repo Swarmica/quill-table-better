@@ -130,7 +130,7 @@ class TableCell extends Container {
     return false;
   }
   
-  static create(value: Props) {
+  static create(value: Props = {}) {
     const node = super.create() as HTMLElement;
     const keys = Object.keys(value);
     for (const key of keys) {
